@@ -21,6 +21,15 @@ function checkEmail(email) {
     );
 }
 
+function loginUser(emailExist, token) {
+    return connection.query(
+        `INSERT INTO
+            sessions ("userId", token)
+        VALUES ($1, $2);`,
+        [emailExist.rows[0]?.id, token]
+    );
+}
+
 function authenticatedToken(token) {
 
     return connection.query(
@@ -31,5 +40,9 @@ function authenticatedToken(token) {
     );
 }
 
+async function getUserData(email) {
+    return connection.query(`SELECT username, image, id AS "userId" FROM users WHERE email=($1);`, [email]);
+}
 
-export  { createUser, checkEmail, authenticatedToken };
+
+export  { createUser, checkEmail, loginUser, authenticatedToken, getUserData };
