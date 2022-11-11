@@ -2,8 +2,9 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import { status_code } from '../enums/status.js';
 import { checkEmail, getUserData, loginUser } from '../repositories/authRepositories.js';
+import { Request, Response } from 'express';
 
-async function loginPost(req, res) {
+async function loginPost(req: Request, res: Response) {
 
     const { email, password } = req.body;
 

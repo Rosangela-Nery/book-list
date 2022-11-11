@@ -1,7 +1,8 @@
 import { status_code } from '../enums/status.js';
 import { authenticatedToken } from '../repositories/authRepositories.js';
+import { Request, Response, NextFunction } from 'express';
 
-async function isAuthenticated(req, res, next) {
+async function isAuthenticated(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.replace('Bearer ', '');
 
     try {
@@ -20,6 +21,7 @@ async function isAuthenticated(req, res, next) {
             });
         }
 
+        next();
     } catch (error) {
 
         res.status(status_code.server_error).send(error.message);

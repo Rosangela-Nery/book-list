@@ -1,8 +1,9 @@
-import connection from '../database/database.js';
+import { connection } from '../database/database.js';
+import { InfoSignUp } from '../protocols/types.js';
 
-function createUser(name, image, email, excrypetPassword) {
+async function createUser(name: string, image: string, email: string, excrypetPassword: string): Promise<string> {
 
-    return connection.query(
+    return await connection.query(
         `INSERT INTO 
             users (name, image, email, "excrypetPassword")
         VALUES ($1, $2, $3, $4);`,
@@ -10,9 +11,9 @@ function createUser(name, image, email, excrypetPassword) {
     );
 }
 
-function checkEmail(email) {
+async function checkEmail(email: string): Promise<string> {
 
-    return connection.query(
+    return await connection.query(
         `SELECT * FROM 
             users 
         WHERE email=($1)
@@ -21,8 +22,8 @@ function checkEmail(email) {
     );
 }
 
-function loginUser(emailExist, token) {
-    return connection.query(
+async function loginUser(emailExist: any, token: string): Promise<string> {
+    return await connection.query(
         `INSERT INTO
             sessions ("userId", token)
         VALUES ($1, $2);`,
@@ -30,9 +31,9 @@ function loginUser(emailExist, token) {
     );
 }
 
-function authenticatedToken(token) {
+async function authenticatedToken(token: string): Promise<string>{
 
-    return connection.query(
+    return await connection.query(
         `SELECT * FROM 
             sessions
         WHERE token = $1;`,
@@ -40,7 +41,7 @@ function authenticatedToken(token) {
     );
 }
 
-async function getUserData(email) {
+async function getUserData(email: string): Promise<string> {
     return connection.query(`SELECT username, image, id AS "userId" FROM users WHERE email=($1);`, [email]);
 }
 

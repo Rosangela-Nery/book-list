@@ -1,15 +1,17 @@
 import bcrypt from 'bcrypt';
 import { status_code } from '../enums/status.js';
-import { checkEmail } from '../repositories/authRepositories.js';
+import { createUser,checkEmail } from '../repositories/authRepositories.js';
+import { Request, Response } from 'express';
+import { InfoSignUp } from '../protocols/types.js';
 
-async function signupPost(req, res) {
-    const { name, image, email, password } = req.body;
+async function signupPost(req: Request, res: Response) {
+    const { name, image, email, password } = req.body as InfoSignUp;
 
     try {
 
         const emailExist = await checkEmail(email);
 
-        if((emailExist.rowa).length) {
+        if((emailExist.rows).length) {
             res.status(status_code.conflict).send({
                 "message": "Esse endereço de email já está cadastrado!"
             });
