@@ -55,7 +55,7 @@ function isAuthenticated(req, res, next) {
                     return [4 /*yield*/, authenticatedToken(token)];
                 case 2:
                     authenticated = _b.sent();
-                    if (authenticated.rowa.length === 0) {
+                    if (authenticated.rows.length === 0) {
                         return [2 /*return*/, res.status(status_code.unauthorized).send({
                                 "message": "Usuário não autorizado!"
                             })];

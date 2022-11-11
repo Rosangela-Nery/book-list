@@ -3,10 +3,11 @@ import { v4 as uuid } from 'uuid';
 import { status_code } from '../enums/status.js';
 import { checkEmail, getUserData, loginUser } from '../repositories/authRepositories.js';
 import { Request, Response } from 'express';
+import { InfoSignUp } from '../protocols/types.js';
 
 async function loginPost(req: Request, res: Response) {
 
-    const { email, password } = req.body;
+    const { email, password } = req.body as InfoSignUp;
 
     try {
 

@@ -20,7 +20,7 @@ async function signupPost(req: Request, res: Response) {
 
         const excrypetPassword = await bcrypt.hash(password, 12);
 
-        await createUser(name, image, email, excrypetPassword);
+        await createUser({name, image, email, password: excrypetPassword});
 
         res.sendStatus(status_code.created);
 

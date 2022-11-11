@@ -12,6 +12,9 @@ var signInSchema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().required()
 });
+var genreSchema = joi.object({
+    genre: joi.string().min(2).required()
+});
 export function validationSignUp(req, res, next) {
     var validation = signUpSchema.validate(req.body, {
         abortEarly: true
@@ -29,4 +32,12 @@ export function validationSignIn(req, res, next) {
         return res.status(status_code.unprocessable_entity).send(validation.error.message);
     }
     next();
+}
+export function validationGenre(req, res, next) {
+    var validation = genreSchema.validate(req.body, {
+        abortEarly: true
+    });
+    if (!!validation.error) {
+        return res.status(status_code.unprocessable_entity).send(validation.error.message);
+    }
 }

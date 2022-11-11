@@ -34,25 +34,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import connection from '../database/database.js';
-function createUser(name, image, email, excrypetPassword) {
-    return connection.query("INSERT INTO \n            users (name, image, email, \"excrypetPassword\")\n        VALUES ($1, $2, $3, $4);", [name, image, email, excrypetPassword]);
+import { connection } from '../database/database.js';
+function createUser(info) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("INSERT INTO \n            users (name, image, email, password)\n        VALUES ($1, $2, $3, $4);", [info.name, info.image, info.email, info.excrypetPassword])];
+        });
+    });
 }
 function checkEmail(email) {
-    return connection.query("SELECT * FROM \n            users \n        WHERE email=($1)\n        LIMIT 1;", [email]);
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("SELECT * FROM \n            users \n        WHERE email=($1)\n        LIMIT 1;", [email])];
+        });
+    });
 }
 function loginUser(emailExist, token) {
     var _a;
-    return connection.query("INSERT INTO\n            sessions (\"userId\", token)\n        VALUES ($1, $2);", [(_a = emailExist.rows[0]) === null || _a === void 0 ? void 0 : _a.id, token]);
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_b) {
+            return [2 /*return*/, connection.query("INSERT INTO\n            sessions (\"userId\", token)\n        VALUES ($1, $2);", [(_a = emailExist.rows[0]) === null || _a === void 0 ? void 0 : _a.id, token])];
+        });
+    });
 }
 function authenticatedToken(token) {
-    return connection.query("SELECT * FROM \n            sessions\n        WHERE token = $1;", [token]);
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("SELECT * FROM \n            sessions\n        WHERE token = $1;", [token])];
+        });
+    });
 }
 function getUserData(email) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            return [2 /*return*/, connection.query("SELECT username, image, id AS \"userId\" FROM users WHERE email=($1);", [email])];
+            return [2 /*return*/, connection.query("SELECT name, image, id AS \"userId\" FROM users WHERE email=($1);", [email])];
         });
     });
 }
-export { createUser, checkEmail, loginUser, authenticatedToken, getUserData };
+function createGenre(genre) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("INSERT INTO \n            \"bookGenre\" (genre)\n        VALUES ($1);", [genre])];
+        });
+    });
+}
+function selectGenre() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("SELECT * FROM  \n            \"bookGenre\";")];
+        });
+    });
+}
+export { createUser, checkEmail, loginUser, authenticatedToken, getUserData, createGenre, selectGenre };

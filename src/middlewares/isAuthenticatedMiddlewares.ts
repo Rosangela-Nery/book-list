@@ -15,7 +15,7 @@ async function isAuthenticated(req: Request, res: Response, next: NextFunction) 
 
         const authenticated = await authenticatedToken(token);
 
-        if(authenticated.rowa.length === 0) {
+        if(authenticated.rows.length === 0) {
             return res.status(status_code.unauthorized).send({
                 "message": "Usuário não autorizado!"
             });
