@@ -1,6 +1,6 @@
 import { QueryResult } from 'pg';
 import { connection } from '../database/database.js';
-import { InfoSignUp, TypeStatus, TypeGenre, InfoBook } from '../protocols/types.js';
+import { InfoSignUp, TypeStatus, TypeGenre, InfoBook, TypeId } from '../protocols/types.js';
 
 async function createUser(info: InfoSignUp): Promise<QueryResult<InfoSignUp>> {
 
@@ -87,7 +87,7 @@ async function createBook(info: InfoBook): Promise<QueryResult<InfoBook>> {
 
     return connection.query(
         `INSERT INTO 
-            book (name, image, author, genreId, statusId)
+            book (name, image, author, "genreId", "statusId")
         VALUES ($1, $2, $3, $4, $5);`,
         [info.name, info.image, info.author, info.genreId, info.statusId]
     );
@@ -96,8 +96,31 @@ async function createBook(info: InfoBook): Promise<QueryResult<InfoBook>> {
 async function selectBook(): Promise<QueryResult<InfoBook>> {
 
     return connection.query(
-        `SELECT * FROM  
-            book;`
+        `SELECT book.id, book.name, book.image, book.author, "bookGenre".genre AS genre, status.status AS status 
+        FROM
+            book
+        INNER JOIN 
+            "bookGenre" ON book."genreId" = "bookGenre".id
+        INNER JOIN 
+            status ON book."statusId" = status.id;`
+    );
+}
+
+async function updateStatusBook(id: number, statusId: number):  Promise<QueryResult<InfoBook>> {
+    return connection.query(
+        `UPDATE 
+            book
+        SET "statusId" = $2
+        WHERE id = $1;`,
+        [id, statusId]
+    );
+}
+
+async function deleteBook(info: TypeId): Promise<QueryResult<TypeId>> {
+    return connection.query(
+        `DELETE FROM book
+        WHERE id = ($1);`,
+        [info.id]
     );
 }
 
@@ -112,5 +135,7 @@ export  {
     createStatus,
     selectStatus,
     createBook,
-    selectBook
+    selectBook,
+    deleteBook,
+    updateStatusBook
 };

@@ -23,3 +23,7 @@ export type InfoBook = {
     genreId: number,
     statusId: number,
 }
+
+export type TypeId = {
+    id: number,
+}

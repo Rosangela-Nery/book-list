@@ -34,43 +34,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import bcrypt from 'bcrypt';
 import { status_code } from '../enums/status.js';
-import { createUser, checkEmail } from '../repositories/authRepositories.js';
-function signupPost(req, res) {
+import { createBook, selectBook } from '../repositories/authRepositories.js';
+function bookPost(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, name, image, email, password, emailExist, excrypetPassword, error_1;
+        var _a, name, image, author, genreId, statusId, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = req.body, name = _a.name, image = _a.image, email = _a.email, password = _a.password;
+                    _a = req.body, name = _a.name, image = _a.image, author = _a.author, genreId = _a.genreId, statusId = _a.statusId;
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 5, , 6]);
-                    return [4 /*yield*/, checkEmail(email)];
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, createBook({ name: name, image: image, author: author, genreId: genreId, statusId: statusId })];
                 case 2:
-                    emailExist = _b.sent();
-                    if ((emailExist.rows).length) {
-                        res.status(status_code.conflict).send({
-                            "message": "Esse endereço de email já está cadastrado!"
-                        });
-                        return [2 /*return*/];
-                    }
-                    return [4 /*yield*/, bcrypt.hash(password, 12)];
-                case 3:
-                    excrypetPassword = _b.sent();
-                    return [4 /*yield*/, createUser({ name: name, image: image, email: email, password: excrypetPassword })];
-                case 4:
                     _b.sent();
                     res.sendStatus(status_code.created);
-                    return [3 /*break*/, 6];
-                case 5:
+                    return [3 /*break*/, 4];
+                case 3:
                     error_1 = _b.sent();
                     res.status(status_code.server_error).send(error_1.message);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-export { signupPost };
+function bookGet(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var book, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, selectBook()];
+                case 1:
+                    book = _a.sent();
+                    res.send(book.rows);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    res.status(status_code.server_error).send(error_2.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+export { bookPost, bookGet };

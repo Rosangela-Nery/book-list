@@ -85,4 +85,33 @@ function selectGenre() {
         });
     });
 }
-export { createUser, checkEmail, loginUser, authenticatedToken, getUserData, createGenre, selectGenre };
+function createStatus(status) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("INSERT INTO \n            status (status)\n        VALUES ($1);", [status])];
+        });
+    });
+}
+function selectStatus() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("SELECT * FROM  \n            status;")];
+        });
+    });
+}
+//createBook, selectBook
+function createBook(info) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("INSERT INTO \n            book (name, image, author, genreId, statusId)\n        VALUES ($1, $2, $3, $4, $5);", [info.name, info.image, info.author, info.genreId, info.statusId])];
+        });
+    });
+}
+function selectBook() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/, connection.query("SELECT book.*, \"genreId\" AS genre, \"statusId\" AS status \n        FROM\n            book\n        INNER JOIN \n            \"bookGenre\" ON book.\"genreId\" = \"bookGenre\".id\n        INNER JOIN \n            status ON book.\"statusId\" = status.id;")];
+        });
+    });
+}
+export { createUser, checkEmail, loginUser, authenticatedToken, getUserData, createGenre, selectGenre, createStatus, selectStatus, createBook, selectBook };
