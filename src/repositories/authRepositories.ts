@@ -102,7 +102,8 @@ async function selectBook(): Promise<QueryResult<InfoBook>> {
         INNER JOIN 
             "bookGenre" ON book."genreId" = "bookGenre".id
         INNER JOIN 
-            status ON book."statusId" = status.id;`
+            status ON book."statusId" = status.id
+        ORDER BY book.id ASC;`
     );
 }
 
