@@ -13,14 +13,14 @@ async function loginPost(req: Request, res: Response) {
 
         const emailExist = await checkEmail(email);
 
-        if(!(emailExist.rows).length) {
+        if(!emailExist) {
             res.status(status_code.unauthorized).send({
                 "message": "Preencha os dados corretamente!"
             });
             return;
         }
 
-        const encrypetPassword = await bcrypt.compare(password, emailExist.rows[0]?.password);
+        const encrypetPassword = await bcrypt.compare(password, emailExist.password);
 
         if (!encrypetPassword) {
             res.status(status_code.unauthorized).send({
@@ -29,14 +29,11 @@ async function loginPost(req: Request, res: Response) {
             return;
         }
 
-        const userData = (await getUserData(email)).rows[0];
-
         const token = uuid();
         await loginUser(emailExist, token);
 
         res.send({
-            token,
-            ...userData
+            token
         })
 
     } catch (error) {

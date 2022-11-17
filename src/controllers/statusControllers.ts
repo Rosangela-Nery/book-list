@@ -7,7 +7,7 @@ async function statusBookPost(req:Request, res: Response) {
     const { status } = req.body as TypeStatus;
 
     try {
-        await createStatus(status);
+        await createStatus({status});
 
         res.sendStatus(status_code.created);
     } catch (error) {
@@ -19,7 +19,7 @@ async function statusBookGet(req: Request, res: Response) {
     try {
         const genres = await selectStatus();
 
-        res.send(genres.rows);
+        res.send(genres);
     } catch (error) {
         res.status(status_code.server_error).send(error.message);
     }

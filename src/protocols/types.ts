@@ -5,7 +5,10 @@ export type InfoSignUp = {
     password: string,
     excrypetPassword?: string,
     emailExist?: boolean,
-    token?: string,
+}
+
+export type TokenType = {
+    token: string,
 }
 
 export type TypeStatus = {

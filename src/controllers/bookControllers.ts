@@ -19,7 +19,7 @@ async function bookGet(req: Request, res: Response) {
     try {
         const book = await selectBook();
 
-        res.send(book.rows);
+        res.send(book);
     } catch (error) {
         res.status(status_code.server_error).send(error.message);
     }

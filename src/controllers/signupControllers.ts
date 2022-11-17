@@ -11,7 +11,7 @@ async function signupPost(req: Request, res: Response) {
 
         const emailExist = await checkEmail(email);
 
-        if((emailExist.rows).length) {
+        if(emailExist) {
             res.status(status_code.conflict).send({
                 "message": "Esse endereço de email já está cadastrado!"
             });
