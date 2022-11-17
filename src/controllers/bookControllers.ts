@@ -43,7 +43,7 @@ async function bookDelete(req: Request, res: Response) {
     const { id } = req.params as unknown as TypeId;
 
     try {
-        await deleteBook({id});
+        await deleteBook(id);
 
         res.sendStatus(status_code.ok);
         return;
