@@ -58,7 +58,11 @@ async function createBook(info: InfoBook) {
 }
 
 async function selectBook() {
-    return prisma.book.findMany();
+    return prisma.book.findMany({
+        include: {
+            bookGenre: true
+        }
+    });
 }
 
 async function updateStatusBook(id: number, statusId: number) {
