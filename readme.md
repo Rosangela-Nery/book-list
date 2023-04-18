@@ -4,7 +4,7 @@
 ## Sobre
 
 O Book-List é um código back-end feito para testar uma nova tecnologia que estou estudando, como por exemplo o typescript.
- Esse código ainda está em desenvolvimento, mas já é possível cadastrar usuário, cadastrar livros, apagar da listar algum livro, atualizar o status se você 
+ Nesse código é possível cadastrar usuário, cadastrar livros, apagar da listar algum livro, atualizar o status se você 
 pretende ler, se achou o livro ruim ou bom.
 
 
